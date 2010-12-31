@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <script type='text/javascript' src='http://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+        google.load('visualization', '1', {'packages':['annotatedtimeline']});
+        google.setOnLoadCallback(initialize);
+
+        var chart = null;
+        var data = null;
+        var query = null;
+
+        // initial date range of query
+        var startDate = new Date(2009,0,1);
+        var endDate = new Date(2009,5,1);
+
+        google.load("visualization", "1", {packages:["annotatedtimeline"]});
+        google.setOnLoadCallback(initialize);
+
+        function initialize() {
+            query = new google.visualization.Query('http://10.103.10.207:8880/query?start=20-11-2009&stop=30-12-2009');
+            query.send( handleResponse );
+        }
+        
+        function init_with_date(range) 
+{
+
+    console.log('coucou');
+            query = new google.visualization.Query('http://10.103.10.207:8880/query?start=20-10-2009&stop=30-12-2009');
+            query.send( handleResponse );
+
+}
+
+
+        function readyChart() {
+            console.log('ready');
+            var range = chart.getVisibleChartRange();
+            console.log(range.start);
+            range.start.setDate(range.start.getDate()+5);
+            console.log(range.start);
+            console.log(range.end);
+            chart.setVisibleChartRange(range.start, range.end);
+         }
+
+function handleResponse(response) {
+    if (!response.isError()) {
+        if (data == null) {
+            chart = new google.visualization.AnnotatedTimeLine(document.getElementById("chart_div"));
+            google.visualization.events.addListener(chart, "rangechange", init_with_date);
+            google.visualization.events.addListener(chart, "ready", readyChart);
+        }
+
+        data = response.getDataTable();
+        console.log(data);
+        chart.draw(data, {title: 'Weight'});
+
+        // After displaying chart, change daterange controls selection to 
+        // leave out the first and last month
+   } 
+    else {
+        displayInfo("Error in query: " + response.getMessage() + " " + response.getDetailedMessage());
+    }
+}
+
+
+</script>
+</head>
+
+  <body>
+    <div id='chart_div' style='width: 700px; height: 240px;'></div>
+  </body>
+</html>

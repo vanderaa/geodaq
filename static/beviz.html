@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {'packages':['annotatedtimeline']});
+      google.setOnLoadCallback(drawVisualization);
+
+
+
+      function drawVisualization() {
+ 	 // To see the data that this visualization uses, browse to
+  	// http://spreadsheets.google.com/ccc?key=pCQbetd-CptGXxxQIG7VFIQ  
+  	var query = new google.visualization.Query('http://10.103.10.207:8880/query?start=20-11-2009&stop=30-12-2009')
+ 	 // Send the query with a callback function.
+ 	 query.send(handleQueryResponse);
+      }
+
+      function handleQueryResponse(response) {
+  	if (response.isError()) {
+    		alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    		return;
+ 	 }
+
+  	var data = response.getDataTable();
+        var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+        var range = chart.getVisibleChartRange();
+//        var d1 = new Date("Dec 1, 2009");
+       //d1.setFullYear(2009,11,10);
+//        chart.draw(data, {displayAnnotations: false});
+        google.visualization.events.addListener(chart, 'rangechange', rangeChanged);
+        google.visualization.events.addListener(chart, 'ready',chartReady);
+
+        chart.draw(data);
+//        console.log(d1);
+        function chartReady(evt)
+        {
+            console.log('I am reday');
+            var st=new Date(2009,11,1);
+            var et=new Date(2009,11,30);
+            chart.setVisibleChartRange(st,et);
+            var rng = chart.getVisibleChartRange();
+            console.log('range='+st);
+         }
+
+        function rangeChanged(range)
+        { 
+            var start = range.start;
+            var end = range.end;
+            var sday = start.getDate();
+            var smonth = start.getMonth();
+            var syear = start.getUTCFullYear();
+            var eday = end.getDate();
+            var emonth = end.getMonth();
+            var eyear = end.getUTCFullYear();
+            var starts = syear + "-" + (smonth+1) + "-" + sday;
+            var ends = eyear + "-" + (emonth+1) + "-" + eday;
+            var r=chart.getVisibleChartRange();
+//            console.log(d1);
+            console.log('Time frame:'+r.start+'|'+r.end);
+            //alert('Time frame: '+starts+' '+ends); 
+            //alert('start: '+range.start+'end: '+range.end); 
+        }
+ //       chart.setVisibleChartRange(d1, null);
+//        console.log('v end'+rng.end);
+      }
+
+    </script>
+  </head>
+
+  <body>
+    <div id='chart_div' style='width: 700px; height: 240px;'></div>
+  </body>
+</html>
