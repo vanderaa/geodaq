@@ -1,6 +1,7 @@
 import gviz_api
 import pymongo 
 import sys
+import json
 from twisted.internet import reactor
 from twisted.web.server import Site
 from twisted.web.resource import Resource
@@ -39,12 +40,24 @@ class BeQuery(Resource):
         request.setHeader("Content-Type", "text/plain; charset=utf-8")
         return data_table.ToJSonResponse(columns_order=("time", "value"), order_by="time", req_id=reqID)
 
+class Publish(Resource):
+    ifLeaf = True
+    def __init__(self):
+        Resource.__init__(self)
+    def render_GET(self,request):
+        print 'publish request ' , request.args
+        if( request.args.has_key('data') ):
+            rawstr=request.args["data"][0]
+            data = json.loads(rawstr)
+            print data
+        return 'ok'
 
 server = pymongo.Connection()
 db  = server.daq
 root = Resource()
 root.putChild( "static", File("/home/vanderaa/becouch/static") )
 root.putChild( "query", BeQuery(db.bees) )
+root.putChild( "publish", Publish() )
 factory = Site(root)
 reactor.listenTCP(8880, factory)
 reactor.run()
