@@ -39,8 +39,10 @@ class BeQuery(Resource):
         data_table.LoadData(data)
         request.setHeader("Content-Type", "text/plain; charset=utf-8")
         return data_table.ToJSonResponse(columns_order=("time", "value"), order_by="time", req_id=reqID)
+    def get_data(start, stop, detectors, n):
+        '''Returns a dictionnary with each detector''' 
 
-class Publish(Resource):
+class Publisher(Resource):
     ifLeaf = True
     def __init__(self):
         Resource.__init__(self)
@@ -49,6 +51,9 @@ class Publish(Resource):
         if( request.args.has_key('data') ):
             rawstr=request.args["data"][0]
             data = json.loads(rawstr)
+            tsamp = time.time()
+            for k in data.keys:
+                print k
             print data
         return 'ok'
 
@@ -57,7 +62,7 @@ db  = server.daq
 root = Resource()
 root.putChild( "static", File("./static") )
 root.putChild( "query", BeQuery(db.bees) )
-root.putChild( "publish", Publish() )
+root.putChild( "publish", Publisher() )
 factory = Site(root)
 reactor.listenTCP(8880, factory)
 reactor.run()
