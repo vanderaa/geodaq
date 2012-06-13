@@ -62,7 +62,7 @@ def store_data(host, port, (data, tem)):
             request = "put ohain.adc"+" "+str(t)+" "+str(data[k])+" "+"id="+str(k)
             c.write(request+'\n')
 #            print "put ohain.adc"+" "+str(t)+" "+str(data[k])+" "+"id="+str(k)
-        if( tem )
+        if( tem ):
             request = "put ohain.temp"+" "+str(t)+" "+str(tem)+" "+"id=0"
             c.write(request+'\n')
         c.close()
@@ -77,7 +77,7 @@ def main(args):
         print data
         if( data ):
             store_data('127.0.0.1',4242,data)
-        time.sleep(10)
+        time.sleep(300)
 
 
 main(None)
