@@ -1,1 +1,13 @@
 geodaq is collection of python scripts to acquire sensor data stored into mongodb
+
+Requirements
+------------
+
+ Google visualisation API:
+	Using 1.7
+	
+ mongodb (Using 1.8.0)
+
+ pymongo: 
+	easy_install pymongo  
+	If easy_install can't be found try apt-get install python-setuptools
