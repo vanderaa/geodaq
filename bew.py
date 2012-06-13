@@ -55,7 +55,7 @@ class Publish(Resource):
 server = pymongo.Connection()
 db  = server.daq
 root = Resource()
-root.putChild( "static", File("/home/vanderaa/becouch/static") )
+root.putChild( "static", File("./static") )
 root.putChild( "query", BeQuery(db.bees) )
 root.putChild( "publish", Publish() )
 factory = Site(root)
