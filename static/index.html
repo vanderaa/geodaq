@@ -17,7 +17,7 @@
         google.setOnLoadCallback(initialize);
 
         function initialize() {
-            query = new google.visualization.Query('http://10.103.10.207:8880/query?start=20-11-2009&stop=30-12-2009');
+            query = new google.visualization.Query('http://lego.xe.be:8880/query?start=20-11-2009&stop=30-12-2009');
             query.send( handleResponse );
         }
         
@@ -25,7 +25,7 @@
 {
 
     console.log('coucou');
-            query = new google.visualization.Query('http://10.103.10.207:8880/query?start=20-10-2009&stop=30-12-2009');
+            query = new google.visualization.Query('http://lego.xe.be:8880/query?start=20-10-2009&stop=30-12-2009');
             query.send( handleResponse );
 
 }
@@ -64,7 +64,7 @@ function handleResponse(response) {
 
 </script>
 </head>
-
+	This page should show plots 
   <body>
     <div id='chart_div' style='width: 700px; height: 240px;'></div>
   </body>
