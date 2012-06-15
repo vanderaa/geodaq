@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import socket
 import json
 import telnetlib
@@ -26,6 +28,6 @@ while True:
     ts = int(time.time())
     queue.append((ts,data))
     print data,addr
-    if(len(queue) > 1 ):
+    if(len(queue) > 20 ):
         print 'publishing'
         publish('localhost',4242,queue)
