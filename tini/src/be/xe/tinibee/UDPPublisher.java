@@ -30,8 +30,9 @@ public class UDPPublisher implements Publisher
             System.err.print("Updating with "+data);  
             DatagramSocket clientSocket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName(root);
-            byte[] sendData = new byte[1024];
-            sendData = data.getBytes();
+            byte[] sendData = data.getBytes();
+           // byte[] sendData = new byte[1024];
+           // sendData = data.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
             clientSocket.send(sendPacket);
             clientSocket.close();          
