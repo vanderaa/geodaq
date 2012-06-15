@@ -34,7 +34,7 @@ def plotter( data ):
 
     f = StringIO()
 
-    fig.savefig(f, format="svg",transparent=True)
+    fig.savefig(f, format="png")
 
     buff = f.getvalue()
 
