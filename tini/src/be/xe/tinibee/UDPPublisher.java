@@ -28,17 +28,17 @@ public class UDPPublisher implements Publisher
             }
             data = data + "}";
             System.err.print("Updating with "+data);  
-			DatagramSocket clientSocket = new DatagramSocket();
-			InetAddress IPAddress = InetAddress.getByName(root);
-			byte[] sendData = new byte[1024];
+            DatagramSocket clientSocket = new DatagramSocket();
+            InetAddress IPAddress = InetAddress.getByName(root);
+            byte[] sendData = new byte[1024];
             sendData = data.getBytes();
-			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
-			clientSocket.send(sendPacket);
-			clientSocket.close();          
-            
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
+            clientSocket.send(sendPacket);
+            clientSocket.close();          
+
             //System.err.println(data);
             //url = new URL(root);
-            
+
         } 
         catch (IOException e) 
         {
