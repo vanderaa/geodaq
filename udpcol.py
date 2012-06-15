@@ -17,7 +17,7 @@ def publish(host, port, z ):
         d  = q[1]
         ss = 'put cam.temp '+str(ts)+' '+str(d['TempCambridge'])+' id=0\n'
         t.write(ss);
-        print ss, 
+#        print ss, 
     t.close()
     z[:] = []
 
@@ -27,7 +27,7 @@ while True:
     data = json.loads(data)
     ts = int(time.time())
     queue.append((ts,data))
-    print data,addr
+    print '.', 
     if(len(queue) > 20 ):
-        print 'publishing'
+        print 'P'
         publish('localhost',4242,queue)
