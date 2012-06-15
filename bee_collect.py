@@ -11,28 +11,31 @@ def acquire_onewire(c, serial, Type, idx, channel):
     (host,port) = c.get_socket().getpeername()
     try:
         print 'acquiring'
+        tt = 'r1wd '+repr(idx)+' '+repr(channel)+'\n'
+#       print tt
         c.write('r1wd '+repr(idx)+' '+repr(channel)+'\n')
         tem = c.read_until('\n')
+#        print tem
         tem = float(tem.split()[-1])
         return tem
     except EOFError:
         print 'could not acquire adding' 
         c.close()
         c = telnetlib.Telnet(host,port)
-        ost = 'a1wd '+repr(serial)+' '+repr(Type)+' '+repr(idx)+'\n'
-        print ost
+        ost = 'a1wd '+serial+' '+Type+' '+repr(idx)+'\n'
+#        print ost
         c.write(ost)
         tem = c.read_until('\n')
+#        print tem
         if( tem ):
             c.write('r1wd '+repr(idx)+' '+repr(channel)+'\n')
             try:
                 tem = c.read_until('\n')
                 tem = float(tem.split()[-1])
-                print 'got the data'
+#                print 'got the data'
                 return tem
             except EOFError:
-                c = telnetlib.Telnet(host,port)
-                print 'reconncet'
+                print 'nothing'
                 return None
 
 def acquire_data(host, port):
@@ -42,7 +45,8 @@ def acquire_data(host, port):
         adc = c.read_until('\n')
         adc = adc.split()
         adc = map(float,adc[1:])
-        tem = acquire_onewire(c,'1234567','ds1920',0,0)
+        print adc
+        tem = acquire_onewire(c,'B500000014A5F510','ds1920',0,0)
         # now read the temp sensor 
         #c.write('r1wd 0 0\n')
         #tem = c.read_until('\n')
