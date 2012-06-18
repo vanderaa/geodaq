@@ -1,5 +1,7 @@
 package be.xe.tinibee;
 
+import com.dalsemi.system.*;
+import com.dalsemi.system.I2CPort;
 
 import java.util.Vector;
 
@@ -8,29 +10,43 @@ import be.xe.tinibee.*;
 
 public class BeStart 
 {
-	public static void main(String[] args) 
+    public static void main(String[] args) 
     {
         String root_url = "46.19.33.55";
         if( args.length != 0)
             root_url = args[0];
-        //HTTPPublisher pb = new HTTPPublisher(root_url);
         UDPPublisher pb = new UDPPublisher(root_url);	
-        //Publisher pb = new Publisher("http://127.0.0.1:8880/publish");
         System.err.println("Publishing to "+root_url);
-        TempSensor sens = new TempSensor();
-        //	String[] names = {"det 1","det2","det3"};
-        //	Double[] values = {1.0,2.0,3.0};
+        /* Initialize the i2c bus */
 
-        Vector metrics = new Vector();
-        Metric temperature = new Metric("cam.temp",1);
-        metrics.addElement(temperature);
+        I2CPort i2c = new I2CPort();
+        i2c.setClockDelay((byte)2);
+        MaxADC adc1 = new MaxADC((byte)0x28,i2c);
+        MaxADC adc2 = new MaxADC((byte)0x2F,i2c);
+        Metric weight = new Metric("ohain.weight",4);
+        double[] a = {(5.748-1.402)/95.0,(4.170-3.000)/30.0,
+                      (4.170-3.000)/30.0,(5.748-1.402)/95.0};
+        double[] b = {74.5,73.2,80.5,32.3};
+        LinearCal lc = new LinearCal(a,b);
+
+        TempSensor sens = new TempSensor();
+        Metric temperature = new Metric("ohain.temp",1);
+
+
+        Vector data = new Vector();
+        data.addElement(temperature);
+        data.addElement(weight);
         System.out.println("Starting publisher");
         try {
             while( true )
             {               
                 temperature.set(0,sens.getTemp());
-               // values[0]=values[0]+1.0;
-                pb.post(metrics);
+                weight.set(0,adc2.getValue((byte)4));
+                weight.set(1,adc2.getValue((byte)5));
+                weight.set(2,adc2.getValue((byte)6));
+                weight.set(3,adc2.getValue((byte)7));
+                weight.calibrate(lc);
+                pb.post(data);
                 Thread.sleep(4000);
             }
         }
