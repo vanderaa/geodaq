@@ -45,7 +45,6 @@ public class BeStart
                 weight.set(1,adc2.getValue((byte)5));
                 weight.set(2,adc2.getValue((byte)6));
                 weight.set(3,adc2.getValue((byte)7));
-                weight.calibrate(lc);
                 pb.post(data);
                 Thread.sleep(4000);
             }
