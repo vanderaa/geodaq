@@ -24,9 +24,8 @@ public class BeStart
         MaxADC adc1 = new MaxADC((byte)0x28,i2c);
         MaxADC adc2 = new MaxADC((byte)0x2F,i2c);
         Metric weight = new Metric("ohain.weight",4);
-        double[] a = {(5.748-1.402)/95.0,(4.170-3.000)/30.0,
-                      (4.170-3.000)/30.0,(5.748-1.402)/95.0};
-        double[] b = {74.5,73.2,80.5,32.3};
+        double[] a = {0.049,0.039,0.039,0.049};
+        double[] b = {-7.1 ,9.8  ,16.9 ,-3.6};
         LinearCal lc = new LinearCal(a,b);
 
         TempSensor sens = new TempSensor();
@@ -45,6 +44,7 @@ public class BeStart
                 weight.set(1,adc2.getValue((byte)5));
                 weight.set(2,adc2.getValue((byte)6));
                 weight.set(3,adc2.getValue((byte)7));
+                weight.calibrate(lc);
                 pb.post(data);
                 Thread.sleep(4000);
             }
