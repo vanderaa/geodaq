@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*; 
 import be.xe.tinibee.*;
 
-public class HTTPPublisher implements Publisher
+public class HTTPPublisher 
 {
     String root = null;
     URL url = null;
