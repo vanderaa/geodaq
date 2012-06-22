@@ -5,12 +5,14 @@ import json
 import telnetlib
 import time 
 import yaml
+import sys
 
 socks = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 socks.bind(('',3001))
 #socks.bind(('',9876))
 
 queue = []
+cnt =0
 
 def publish(host, port, ts, data ):
     t = telnetlib.Telnet(host, port)
@@ -58,14 +60,18 @@ def calibrate( fname, data ):
 #            print data
 
 while True:
+    cnt = cnt+1
     data,addr = socks.recvfrom(1024)
     data = json.loads(data)
     # We need to calibrate the data
     ts = int(time.time())
     calibrate('cal.yaml',data)
     publish('localhost',4242, ts, data)
-    queue.append((ts,data))
-#    print '.', 
+    sys.stdout.write('.')
+    sys.stdout.flush()
+    if( cnt == 20 ):
+        sys.stdout.write(str(ts)+'\n')
+        cnt = 0
 #    if(len(queue) > 20 ):
 #        print 'P'
 #        publish('localhost',4242,queue)
