@@ -11,7 +11,7 @@ class MainHandler(tornado.web.RequestHandler):
         self.set_status(200)
         self.set_header("Content-Type", "image/png")
         db = TSDb('lego.xe.be',4242)
-        data = db.query('2011/06/09-12:00:00',None,['ohain.temp','ohain.adc{id=14}'],'sum','1h-avg')
+        data = db.query('2012/06/20-00:00:00',None,['ohain.temp','ohain.weight{id=1}'],'sum','10m-avg')
         query = qs_decode(self.request.query)
 
 
