@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import tornado.ioloop
 import tornado.web
 from urlparse import parse_qs as qs_decode
@@ -11,9 +12,11 @@ class MainHandler(tornado.web.RequestHandler):
         self.set_status(200)
         self.set_header("Content-Type", "image/png")
         db = TSDb('lego.xe.be',4242)
-        data = db.query('2012/06/20-00:00:00',None,['ohain.temp','ohain.weight{id=1}'],'sum','10m-avg')
+        det = ['ohain.temp','ohain.weight{id=1}','ohain.weight{id=2}','ohain.weight{id=0}']
         query = qs_decode(self.request.query)
-
+        print query['start']
+        data = db.query(query['start'][0],None,det,'sum','10m-avg')
+#        print data
 
 
         self.finish(plotter(data))
