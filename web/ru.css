@@ -1,0 +1,31 @@
+#chart_timerange {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#chart_timerange li {
+	border: 1px solid #ddd;
+	padding: 0.2em 0.4em;
+	display: inline-block;
+	cursor: pointer;
+	font-size: 12pt;
+}
+
+#pricechart {
+text-align:center;
+}
+
+#oli {
+text-align:center;
+}
+
+
+#chart_timerange li:hover {
+	border-color: #555;
+}
+
+#chart_timerange li.active {
+	background-color: #ffffaa;
+}

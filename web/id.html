@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+	<link rel="stylesheet" href="ru.css" type="text/css" />
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				jQuery('#chart_timerange li').click( function(e) {
+					var o = jQuery(this);
+					var r = o.attr('range');
+					setChartRange(r);
+					});
+
+				var ChartBaseURL = "img/plot";
+
+				function setChartRange(r) {
+					var chart = document.getElementById('pricechart');
+					//$.get(ChartBaseURL + "_" + r + ".svg", function(data){ console.log(data); });
+					var oo = ChartBaseURL + "_" + r + ".svg";
+					//chart.src = oo;
+					$("#pricechart").load(oo);
+					console.log(oo);
+					var e = jQuery('#chart_timerange').children('li[range="' + r + '"]').addClass('active').siblings().removeClass('active');
+					//	jQuery.cookie('chart_timerange', r);
+				}
+
+		//var r = jQuery.cookie('chart_timerange');
+		//if (!r) r = 60;
+		//setChartRange(r);
+			});
+		</script>
+	</head>
+	<body>
+		<h3 align="center"> Time range 
+		<ul id="chart_timerange">
+			<li range="1y">1year</li>
+			<li range="1m">1month</li>
+			<li range="1w">1week</li>
+			<li range="1d" class="active">1d</li>
+		</ul>
+		</h3>
+<!--	<a href="/charts/mtgoxUSD"> -->
+<!--  	<img id="pricechart" class="rt-chart"/> -->  
+        <div id="pricechart" align="center">
+			<object  type="image/svg+xml" data="img/plot_1d.svg"></object> 
+		</div>
+<!--	</a> -->
+<!--	<script type="text/javascript">
+	
+	</script> -->
+
+	</body>
+</html>
+
