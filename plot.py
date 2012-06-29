@@ -67,7 +67,7 @@ def plotter( data ):
 
     f = StringIO()
 
-    fig.savefig(f, format="png")
+    fig.savefig(f, format="svg")
 
     buff = f.getvalue()
 

@@ -10,7 +10,7 @@ from tsdb import TSDb
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.set_status(200)
-        self.set_header("Content-Type", "image/png")
+        self.set_header("Content-Type", "image/svg+xml")
         db = TSDb('lego.xe.be',4242)
         det = ['ohain.temp','ohain.weight{id=1}','ohain.weight{id=2}','ohain.weight{id=0}']
         query = qs_decode(self.request.query)
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     application = tornado.web.Application([
         (r"/", MainHandler),
     ])
-    application.listen(8080)
+    application.listen(8080,'0.0.0.0')
 
     print("localhost:8080")
 
