@@ -26,6 +26,7 @@ class TSDb:
         else:
             f.close()
             return None
+        f.close()
 
     def parse_result(self, f):
         res = {}
