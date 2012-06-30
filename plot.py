@@ -11,7 +11,7 @@ from matplotlib import rc
 #rc('text',usetex=True)
 #rc('font',family='serif')
 
-def plotter( data ):
+def plotter( data, fname=None ):
 
     xy = data['ohain.temp{id=0}']
 
@@ -36,12 +36,12 @@ def plotter( data ):
     p1.grid(True)
     
   #  p1 = fig.add_subplot(212) 
-    xy = data['ohain.weight{id=1}']
-    p2.plot_date(dates.epoch2num(xy[0]),xy[1],'g-',tz=None,xdate=True,ydate=False,aa=True,lw=0.5)
-    xy = data['ohain.weight{id=2}']
-    p2.plot_date(dates.epoch2num(xy[0]),xy[1],'b-',tz=None,xdate=True,ydate=False,aa=True,lw=0.5)
-    xy = data['ohain.weight{id=0}']
-    p2.plot_date(dates.epoch2num(xy[0]),xy[1],'m-',tz=None,xdate=True,ydate=False,aa=True,lw=0.5)
+    xy1 = data['ohain.weight{id=1}']
+    p2.plot_date(dates.epoch2num(xy1[0]),xy1[1],'g-',tz=None,xdate=True,ydate=False,aa=True,lw=0.5)
+    xy2 = data['ohain.weight{id=2}']
+    p2.plot_date(dates.epoch2num(xy2[0]),xy2[1],'b-',tz=None,xdate=True,ydate=False,aa=True,lw=0.5)
+    xy3 = data['ohain.weight{id=0}']
+    p2.plot_date(dates.epoch2num(xy3[0]),xy3[1],'m-',tz=None,xdate=True,ydate=False,aa=True,lw=0.5)
     p2.set_ylabel('Weight (kg)')
     p2.grid(True)
     leg=p2.legend(['1','2','3'],'upper left', labelspacing=0.2)
@@ -64,13 +64,15 @@ def plotter( data ):
 #    plt.set_title('ADC values')
 
     
-
-    f = StringIO()
-
-    fig.savefig(f, format="svg")
-
-    buff = f.getvalue()
-
-    f.close()
-
-    return buff
+    if( not fname ):
+        f = StringIO()
+        fig.savefig(f, format="svg")
+        buff = f.getvalue()
+        f.close()
+        fig.clf()
+        plt.close()
+        return buff
+    else:
+        fig.savefig(fname, format="svg")
+        fig.clf()
+        plt.close()
