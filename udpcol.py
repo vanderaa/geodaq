@@ -64,6 +64,7 @@ while True:
     data,addr = socks.recvfrom(1024)
     data = json.loads(data)
     # We need to calibrate the data
+    #print addr
     ts = int(time.time())
     calibrate('cal.yaml',data)
     publish('localhost',4242, ts, data)
