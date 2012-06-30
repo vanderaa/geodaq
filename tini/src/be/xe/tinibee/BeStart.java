@@ -46,7 +46,7 @@ public class BeStart
                 weight.set(3,adc2.getValue((byte)7));
 //                weight.calibrate(lc);
                 pb.post(data);
-                Thread.sleep(4000);
+                Thread.sleep(60000);
             }
         }
         catch (InterruptedException dummy)
