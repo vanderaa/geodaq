@@ -13,8 +13,23 @@
 	font-size: 12pt;
 }
 
+#camera {
+	text-align: center;
+	height: 388;
+	width: 452;
+}
+
+#cameralink {
+  height: 70px;
+  text-align: center;
+}
+
 #pricechart {
 text-align:center;
+}
+
+.charts {
+text-align: center;
 }
 
 #oli {
