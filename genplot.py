@@ -11,6 +11,6 @@ import sys
 if __name__ == "__main__":
     print sys.argv
     db = TSDb('lego.xe.be',4242)
-    det = ['ohain.temp','ohain.weight{id=1}','ohain.weight{id=2}','ohain.weight{id=0}']
+    det = ['ohain.temp','ohain.weight{id=1}','ohain.weight{id=2}','ohain.weight{id=0}','ohain.weight{id=3}']
     data = db.query(sys.argv[1],None,det,'sum','10m-avg')
     plotter(data,sys.argv[2])
