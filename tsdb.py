@@ -15,7 +15,7 @@ class TSDb:
                 qry.append( ('m',aggr+':'+filt+':'+m) )
             else:
                 qry.append( ('m',aggr+':'+m) )
-        print qry
+        #print qry
         url = urllib.urlencode(qry)
         # Now lets query the guy
         f = urllib.urlopen('http://'+self.host+':'+str(self.port)+'/q?%s' % url)
