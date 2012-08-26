@@ -44,6 +44,7 @@ def calibrate( fname, data ):
     cal = yaml.load(f)
 #    print cal
     f.close()
+    print data
     # For each element in data se
     # if we have a element to calibrate
     if( cal ):
@@ -58,13 +59,14 @@ def calibrate( fname, data ):
             # Now calibrate
                 data[metric][idx]=f(data[metric][idx])
 #            print data
+    print data
 
 while True:
     cnt = cnt+1
     data,addr = socks.recvfrom(1024)
     data = json.loads(data)
     # We need to calibrate the data
-    #print addr
+    print addr
     ts = int(time.time())
     calibrate('cal.yaml',data)
     publish('localhost',4242, ts, data)
