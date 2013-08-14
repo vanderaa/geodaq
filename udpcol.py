@@ -6,6 +6,7 @@ import telnetlib
 import time 
 import yaml
 import sys
+import urllib
 
 socks = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 socks.bind(('',3001))
@@ -13,6 +14,7 @@ socks.bind(('',3001))
 
 queue = []
 cnt =0
+prev_addr = ''
 
 def publish(host, port, ts, data ):
     t = telnetlib.Telnet(host, port)
@@ -37,6 +39,24 @@ def publish(host, port, ts, data ):
 #        print ss, 
 #    t.close()
 #    z[:] = []
+def dns_update( addr, data ):
+    global prev_addr
+    addr = addr[0]
+    name = data.keys()
+    name = name[0].split('.')
+    name = name[0]
+    print 'name is',name
+    print 'addr is',addr
+    print 'prev_addr',prev_addr
+    if( name == 'ohain' and addr!=prev_addr ):
+        print 'updating dns with addr=', addr 
+        try:
+            p = urllib.urlencode({'':'SnhPeWtvYTZUVHVkM3JPN3VDbnQ6Nzc0OTA4MA==','address':addr})
+            f = urllib.urlopen('http://freedns.afraid.org/dynamic/update.php?%s'%p)
+            print f.read()
+            prev_addr = addr
+        except e:
+            print e
 
 
 def calibrate( fname, data ):
@@ -70,6 +90,7 @@ while True:
     ts = int(time.time())
     calibrate('cal.yaml',data)
     publish('localhost',4242, ts, data)
+    dns_update(addr,data)
     sys.stdout.write('.')
     sys.stdout.flush()
     if( cnt == 20 ):

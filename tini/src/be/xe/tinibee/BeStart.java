@@ -28,6 +28,8 @@ public class BeStart
         double[] b = {-7.1 ,9.8  ,16.9 ,-3.6};
         LinearCal lc = new LinearCal(a,b);
 
+        CounterSensor cnt = new CounterSensor();
+        Meric cntsens = new Metric("ohain.cnt", 2);
         TempSensor sens = new TempSensor();
         Metric temperature = new Metric("ohain.temp",1);
 
