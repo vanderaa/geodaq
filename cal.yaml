@@ -6,3 +6,5 @@ ohain.weight:
     4: x*1+1
 ohain.temp:
     0: x
+cam.temp:
+    0: min(max(x,-10),40)
