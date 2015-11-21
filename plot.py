@@ -18,7 +18,7 @@ def plotter( data, fname=None ):
     try: 
         xy = data['ohain.temp{id=0}']
 
-        fig = plt.figure(figsize=(12,6))
+        fig = plt.figure(figsize=(14,8))
  #   gs = gridspec.GridSpec(1, 2,width_ratios=[2,1])
     #p1 = fig.add_subplot(2,1,1)
         p1 = plt.subplot2grid((3,1),(0,0))
@@ -42,15 +42,16 @@ def plotter( data, fname=None ):
 
         xy1 = data['ohain.weight{id=1}']
         p2.plot_date(dates.epoch2num(xy1[0]),xy1[1],'g-',tz=btz,xdate=True,ydate=False,aa=True,lw=0.5)
-        xy2 = data['ohain.weight{id=2}']
-        p2.plot_date(dates.epoch2num(xy2[0]),xy2[1],'b-',tz=btz,xdate=True,ydate=False,aa=True,lw=0.5)
+        #xy2 = data['ohain.weight{id=2}']
+        #p2.plot_date(dates.epoch2num(xy2[0]),xy2[1],'b-',tz=btz,xdate=True,ydate=False,aa=True,lw=0.5)
         xy3 = data['ohain.weight{id=0}']
         p2.plot_date(dates.epoch2num(xy3[0]),xy3[1],'m-',tz=btz,xdate=True,ydate=False,aa=True,lw=0.5)
         xy4 = data['ohain.weight{id=3}']
         p2.plot_date(dates.epoch2num(xy4[0]),xy4[1],'r-',tz=btz,xdate=True,ydate=False,aa=True,lw=0.5)
         p2.set_ylabel('Weight (kg)')
         p2.grid(True)
-        leg=p2.legend(['B3R4','B2R6','B4R5','B1R7'],'upper left', labelspacing=0.2)
+        #leg=p2.legend(['B3R4','B2R6','B4R5','B1R7'],'upper left', labelspacing=0.2)
+        leg=p2.legend(['B3R4','B4R5','B1R7'],'upper left', labelspacing=0.2)
         for l in leg.get_texts():
             l.set_fontsize('small')
             p2.xaxis.set_major_locator(majloc)
