@@ -7,6 +7,9 @@ import time
 import yaml
 import sys
 import urllib
+from stathat import StatHat 
+
+stathat = StatHat()
 
 socks = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 socks.bind(('',3001))
@@ -55,8 +58,8 @@ def dns_update( addr, data ):
             f = urllib.urlopen('http://freedns.afraid.org/dynamic/update.php?%s'%p)
             print f.read()
             prev_addr = addr
-        except e:
-            print e
+        except:
+            print 'Error updating dns'
 
 
 def calibrate( fname, data ):
@@ -81,16 +84,42 @@ def calibrate( fname, data ):
 #            print data
     print data
 
+def sathat_publish(data, user='vanderaa@lego.xe.be'):
+    keys=data.keys()
+    f=open('stathat.yaml')
+    mapping=yaml.load(f)
+    for k in keys:
+        maps=mapping.get(k)
+        if maps:
+            values=data.get(k)
+            if len(values) > 1:
+                for i in range(len(values)):
+                    name = maps.get(i)
+                    if( name ):
+                        print 'array', name, values[i]
+                        try:
+                            stathat.ez_post_value(user,name,values[i])
+                        except Exception as e:
+                            print e, 'stathat http error'
+            else:
+                print 'singleton', maps, values[0] 
+                try:
+                    stathat.ez_post_value(user,maps,values[0])
+                except Exception as e:
+                    print e,'stathat http error'
+
 while True:
     cnt = cnt+1
     data,addr = socks.recvfrom(1024)
     data = json.loads(data)
+    print data
     # We need to calibrate the data
     print addr
     ts = int(time.time())
     calibrate('cal.yaml',data)
     publish('localhost',4242, ts, data)
     dns_update(addr,data)
+    sathat_publish(data)
     sys.stdout.write('.')
     sys.stdout.flush()
     if( cnt == 20 ):
